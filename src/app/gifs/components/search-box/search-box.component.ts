@@ -1,31 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { GifsService } from '../../services/gifs.service';
 
 @Component({
     selector: 'app-gifs-search-box',
     standalone: false,
     template: `
-    <div class="d-flex align-items-center">
-        <button class="btn btn-primary">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 30 30"
-                stroke="currentColor"
-                stroke-width="2"
-            >
-                <circle cx="12" cy="12" r="7"></circle>
-                <path d="m16 16 7 7"></path>
-            </svg>
-        </button>
+    <h5>Búsqueda: </h5>
 
-        <input
-        type="text"
-        class="form-control"
-        placeholder="Buscar gifs..."
-        >
-    </div>
+    <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar gifs..."
+    (keyup.enter)="searchTag()"
+    #searchTagInput
+    >
     `,
 })
-export class SearchBoxComponent  {}
+export class SearchBoxComponent {
+
+    @ViewChild('searchTagInput')
+    public searchTagInput!:ElementRef<HTMLInputElement>;
+    
+    constructor(private gifsService: GifsService){}
+
+    searchTag(): void {
+        const newTagInput = this.searchTagInput.nativeElement.value;
+        this.gifsService.searchTag(newTagInput);        
+        this.searchTagInput.nativeElement.value = '';
+    }
+
+    // searchTag(newTag:string):void {
+    //     console.log(newTag);
+    // }
+}
