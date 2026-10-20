@@ -1,7 +1,10 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing-module';
+import { AppRoutingModule } from './app-routing.module';
+import { GifsModule } from './gifs/gifs.module';
+import { SharedModule } from './shared/shared.module';
 import { App } from './app';
+
 
 @NgModule({
   declarations: [
@@ -9,7 +12,9 @@ import { App } from './app';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    GifsModule,
+    SharedModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
