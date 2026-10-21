@@ -1,22 +1,28 @@
 import { Injectable, signal } from '@angular/core';
 
-//! Provided in root hace que este servicio esté
-//! disponible en todos los componentes/módulos
-@Injectable({providedIn: 'root'})
+@Injectable({
+    providedIn: 'root'
+})
 export class GifsService {
-    
+
     private _tagsHistory = signal<string[]>([]);
 
-    constructor() { }
+    public tagsHistory = this._tagsHistory.asReadonly();
 
-    public searchTag( tag:string ): void{
-        if(!tag) return;
-        this._tagsHistory.update( history => [tag, ...history] );
+    private organizeHistory(tag: string): void {
+        tag = tag.toLowerCase();
+
+        this._tagsHistory.update(history => {
+            const filteredHistory = history.filter(
+                oldTag => oldTag !== tag
+            );
+            return [tag, ...filteredHistory].splice(0,10);
+        });
     }
 
-    get tagsHistory(){
-        //* se usa el spread para evitar la referencia
-        return this._tagsHistory;
+    public searchTag(tag: string): void {
+        if (!tag.trim()) return;
+
+        this.organizeHistory(tag.trim());
     }
-   
 }
