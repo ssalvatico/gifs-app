@@ -6,6 +6,8 @@
         @for (tag of tagHistory; track $index) {
             <button
                 class="list-group-item list-group-item-action"
+                [class.active]="selectedTag === tag"
+                [disabled]="selectedTag === tag"
                 (click)="searchFromButton(tag)">
                 {{ tag | titlecase }}
             </button>

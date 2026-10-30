@@ -14,7 +14,11 @@ export class GifsService {
     public gifList = this._gifList.asReadonly();
 
 
-    constructor( private http:HttpClient ){}
+    constructor( private http:HttpClient ){
+        this.loadLocalStorage();
+        if(this._tagsHistory().length)
+            this.searchTag(this._tagsHistory()[0]);
+    }
 
     private organizeHistory(tag: string): void {
         tag = tag.toLowerCase();
@@ -25,6 +29,17 @@ export class GifsService {
             );
             return [tag, ...filteredHistory].splice(0,10);
         });
+        this.saveLocalStorage();
+    }
+
+    saveLocalStorage(): void{
+        localStorage.setItem('history', JSON.stringify(this._tagsHistory()));
+    }
+
+    loadLocalStorage(): void{
+        const data = localStorage.getItem('history');
+        if(!data) return;
+        this._tagsHistory.set(JSON.parse(data!));
     }
 
     public searchTag(tag: string): void {
@@ -39,6 +54,7 @@ export class GifsService {
 
         // esto es un observable, puede emitir distintos valores a lo largo del tiempo
         // en este caso solo va a emitir un valor, la respuesta que buscamos
+        // en cualquier caso, debemos subscribirnos a la respuesta
         this.http.get<SearchResponse>(`${environment.GIPHY_API_URL}/search`, {params})
             .subscribe(resp => {
                 this._gifList.set(resp.data);
