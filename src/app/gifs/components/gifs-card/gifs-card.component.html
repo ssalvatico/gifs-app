@@ -1,22 +1,14 @@
 <div class="card mb-2 bg-dark text-center">
     
     <app-shared-lazy-image
-        class="bg-light"
         [url]="gif.images.downsized_medium.url"
         [alt]="gif.title || '(no title)'"
     ></app-shared-lazy-image>
+    <div class="card-body">
+        
+        <p class="card-text text-white">
+            {{ gif.title || '(no title)'}}
+        </p>
+        
+    </div>
 </div>
-<!-- <img
-    [src]="gif.images.downsized_medium.url"
-    [alt]="gif.title"
-    class="card-img-top"
-    style="position:sticky;"
-    > -->
-
-<!-- <div class="card-body">
-    
-    <p class="card-text text-white">
-        {{ gif.title || '(no title)'}}
-    </p>
-    
-</div> -->

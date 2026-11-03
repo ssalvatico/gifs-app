@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-shared-lazy-image',
   standalone: false,
-  template: `<p>lazyImage works!</p>`,
+  templateUrl: './lazyImage.component.html',
 })
 export class LazyImageComponent implements OnInit {
 
@@ -13,15 +13,17 @@ export class LazyImageComponent implements OnInit {
   @Input()
   public alt:string = ''
 
-
+  protected hasLoaded:boolean = false;
 
 
 
 
   ngOnInit(): void {
     if(!this.url) throw new Error("Url not provided");
+  }
 
-    console.log(this.url, this.alt)
-    
+  onLoad(){
+    console.log('image loaded');
+    this.hasLoaded = true;
   }
 }
