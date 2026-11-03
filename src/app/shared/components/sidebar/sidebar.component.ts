@@ -9,15 +9,17 @@ import { GifsService } from '../../../gifs/services/gifs.service';
 })
 export class SidebarComponent {
 
-  private selectedTag:string = '';
   constructor(private gifsService: GifsService){}
 
   get tagHistory(): string[]{
     return this.gifsService.tagsHistory();
   }
 
+  get selectedTag(): string{
+    return this.gifsService.currentTag();
+  }
+
   searchFromButton(tag:string): void {
-    this.selectedTag = tag;
     this.gifsService.searchTag(tag);
   }
 }

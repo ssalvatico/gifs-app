@@ -12,6 +12,8 @@ export class GifsService {
     public tagsHistory = this._tagsHistory.asReadonly();
     private _gifList = signal<Gif[]>([]);
     public gifList = this._gifList.asReadonly();
+    private _currentTag = signal<string>('');
+    public currentTag = this._currentTag.asReadonly();
 
 
     constructor( private http:HttpClient ){
@@ -45,6 +47,7 @@ export class GifsService {
     public searchTag(tag: string): void {
         if (!tag.trim()) return;
         this.organizeHistory(tag.trim());
+        this._currentTag.set(tag.trim().toLowerCase());
 
 
         const params = new HttpParams()
